@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  #div
+      a(href="/authenticate") Authenticate
+  #files.row
+          .col-md-12
+          ul.list-group
+          li.list-group-item.active Your Google Drive Files
+          li.list-group-item(v-for="file in files") {{file.name}}
+            li.list-group-item(v-if="!files.length") No Any File Found
+            li.list-group-item
+              input(placeholder="Enter File URL..." v-model="file_url" type="text" class="form-control")
+            li.list-group-item
+              button.btn.btn-primary(v-on:click="submitUrlForUpload") Upload
