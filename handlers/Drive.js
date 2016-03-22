@@ -9,7 +9,7 @@ Drive.prototype.init =  ()=> {
         client_secret: 'Ex461MkAWOomqhvL2njqYFTX',
         redirect: 'http://localhost:3000/token'
     };
-    this.SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/drive.metadata.readonly']
+    this.SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/drive.metadata.readonly','https://www.googleapis.com/auth/drive.file',,'https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/drive.file' ]
 
 }
 Drive.prototype.connect =  ()=> {

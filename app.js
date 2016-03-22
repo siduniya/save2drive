@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/Api');
@@ -43,6 +42,7 @@ app.use('/api', (req, res, next)=> {
     var oauth = drive.connect();
     oauth.credentials = JSON.parse(JSON.stringify(req.cookies.access_token));
     req.oauth =  oauth;
+    req.service  =  req.google.drive({ version: 'v3', auth: req.oauth });
     return next();
 });
 app.use('/', routes);
