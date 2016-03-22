@@ -4,6 +4,10 @@
     <list default="true" id="d2284a96-24eb-4dfa-800e-a4218a2c4b6a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/www" afterPath="$PROJECT_DIR$/bin/www" />
+<<<<<<< HEAD
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js" afterPath="$PROJECT_DIR$/public/javascripts/app.js" />
+>>>>>>> 8835a6a8c3e189867cc31b7f38f2a3d9ce5e1d64
     </list>
     <ignored path="save2drive.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,7 +94,7 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="18">
@@ -100,11 +104,15 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="www" pinned="false" current-in-tab="true">
+          <file leaf-file-name="www" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/bin/www">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="146">
+<<<<<<< HEAD
                   <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+=======
+                  <caret line="22" column="0" selection-start-line="22" selection-start-column="3" selection-end-line="24" selection-end-column="6" />
+>>>>>>> 8835a6a8c3e189867cc31b7f38f2a3d9ce5e1d64
                   <folding />
                 </state>
               </provider>
@@ -130,8 +138,13 @@
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/handlers/Files.js" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/public/javascripts/app.js" />
         <option value="$PROJECT_DIR$/bin/www" />
+=======
+        <option value="$PROJECT_DIR$/bin/www" />
+        <option value="$PROJECT_DIR$/public/javascripts/app.js" />
+>>>>>>> 8835a6a8c3e189867cc31b7f38f2a3d9ce5e1d64
       </list>
     </option>
   </component>
@@ -301,12 +314,20 @@
       <workItem from="1458389390718" duration="4061000" />
       <workItem from="1458413249858" duration="3137000" />
       <workItem from="1458551175253" duration="10413000" />
+<<<<<<< HEAD
       <workItem from="1458629958697" duration="15222000" />
+=======
+      <workItem from="1458629958697" duration="15024000" />
+>>>>>>> 8835a6a8c3e189867cc31b7f38f2a3d9ce5e1d64
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="39717000" />
+=======
+    <option name="totallyTimeSpent" value="39519000" />
+>>>>>>> 8835a6a8c3e189867cc31b7f38f2a3d9ce5e1d64
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -686,18 +707,32 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+=======
+    <entry file="file://$PROJECT_DIR$/bin/www">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="3" selection-end-line="24" selection-end-column="6" />
+>>>>>>> 8835a6a8c3e189867cc31b7f38f2a3d9ce5e1d64
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/bin/www">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="146">
           <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+=======
+    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+>>>>>>> 8835a6a8c3e189867cc31b7f38f2a3d9ce5e1d64
           <folding />
         </state>
       </provider>
