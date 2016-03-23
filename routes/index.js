@@ -8,4 +8,7 @@ router.get('/', function(req, res, next) {
 });
 router.get('/authenticate',authenticate.process);
 router.get('/token',authenticate.token);
+router.get('/file',function(req,res){
+	res.sendFile('/home/samundrak/Documents/file');
+});
 module.exports = router;

@@ -6,17 +6,20 @@ block content
   #files.row
           .col-md-12
               ul.list-group
-                li.list-group-item.active Your Google Drive Files
-                li.list-group-item(v-if="!loading && files.length")
-                  table.table.table-striped
+                li.list-group-item.active File will be uploaded to root
+                //li.list-group-item(v-if="!loading && files.length")
+                  //table.table.table-striped
                     tr
+                        th Select
                         th Name
                         th Type
                     tr(v-for="file in files")
+                        td
+                            input(type="radio" v-model="folder" name="folder")
                         td {{file.name}}
                         td {{file.mimeType}}
-                li.list-group-item(v-if="!files.length && !loading") No Any File Found
-                li.list-group-item(v-if="loading")
+                //li.list-group-item(v-if="!files.length && !loading") No Any File Found
+                //li.list-group-item(v-if="loading")
                     img(src="images/loading.gif")
                 li.list-group-item(v-if="message") {{{ message }}}
                 form(v-on:submit.prevent="submitUrlForUpload")
