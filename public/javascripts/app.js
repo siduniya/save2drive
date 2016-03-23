@@ -48,6 +48,13 @@ var fileList = new Vue({
                     }
                     this.loading  = false;
                 });
+        },
+        toggleView :function(index){
+            $("#"+index).toggle(500);
+        },
+        removeView: function(index){
+            if(!confirm("Are you sure you want to remove this? you will not see any progress")) return;
+            this.fileDetails.splice(index,1);
         }
     },
     created(){
@@ -72,10 +79,14 @@ var fileList = new Vue({
 
 io.on('upload',function(data){
     var item = _.findWhere(fileList.fileDetails,{hash:data.fileId});
+    if(!item)return;
     item.progress.at = data.progress.percentage;
     item.progress.uploaded = data.progress.transferred;
     item.progress.remains = data.progress.remaining;
     item.progress.eta = data.progress.eta || 'Completed';
     item.progress.speed = data.progress.speed;
+    if(item.progress.at >= 100){
+        $("#"+data.fileId).removeClass("active");
+    }
     // $("#"+data.fileId).css("width",data.progress.percentage+"%");
 });

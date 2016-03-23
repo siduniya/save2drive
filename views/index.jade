@@ -8,22 +8,28 @@ block content
 			ul.list-group
 				li.list-group-item.active File will be uploaded to root
 				li.list-group-item(v-if="!loading && fileDetails.length")
-						div(v-for="file in fileDetails")
+						div(v-for="file in fileDetails" )
 							.row
 								.col-md-12
 									table.table-striped.table
 										tr
+											th SN
 											th Name
 											th Type
 											th Size
 										tr
+											td {{$index+1}}
 											td {{file.name}}
 											td {{file.type}}
 											td {{file.size}}
+									div.label.label-danger.pull-right(v-on:click="removeView($index)" style="cursor:pointer") Remove
+									div.label.label-info.pull-right(v-on:click="toggleView($index)" style="cursor:pointer") Toggle view
+							.row(id="{{$index}}")
 								.col-md-12
-									div.label.label-default() Progress
+									div
+										div.label.label-default Progress
 									div.progress(style="margin-top:2px;")
-											.progress-bar.progress-bar-striped.active(role="progressbar" aria-valuenow="{{file.progress.at}}" aria-valuemin="0" aria-valuemax="100" style="width:{{file.progress.at}}%" id="{{file.hash}}") {{file.progress.at}}%
+											.progress-bar.progress-bar-striped(role="progressbar" aria-valuenow="{{file.progress.at}}" aria-valuemin="0" aria-valuemax="100" style="width:{{file.progress.at}}%" id="{{file.hash}}") {{file.progress.at}}%
 								.col-md-12
 									.row
 										.col-sm-3
