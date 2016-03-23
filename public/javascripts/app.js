@@ -6,21 +6,29 @@ Vue.config.silent = false;
 //     console.log(data);
 // });
 var fileList = new Vue({
-    el : "#files",
-    data :{
-        test : 'samundra',
-        files : [],
-        file_url:undefined,
-        message : '',
-        loading :  true,
+    el: "#files",
+    data: {
+        test: 'samundra',
+        files: [],
+        file_url: undefined,
+        message: '',
+        loading: true,
+        fileDetails: []
     },
-    methods:  {
+    methods: {
         submitUrlForUpload(){
-            if(this.file_url.trim().length < 3) return;
-            this.$http.get('/api/upload?url='+this.file_url)
-                .then(response =>{
-                    console.log(response.data);
-                    // this.$set('message','');
+            if (this.file_url.trim().length < 3) return;
+            this.$http.get('/api/upload?url=' + this.file_url)
+                .then(response => {
+                    if (response.data.success) {
+                        response.data.data.url =  this.file_url;
+                        response.data.data.type = response.data.data['content-type'];
+                        this.fileDetails.push(response.data.data);
+                        this.$set('message', '');
+                        this.$set('file_url', '');
+                    } else {
+                        this.$set('message', response.data.data);
+                    }
                 });
         }
     },

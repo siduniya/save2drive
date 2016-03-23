@@ -2,10 +2,11 @@ var fs = require('fs');
 var request = require('request');
 var _ = require('underscore');
 var path = require('path');
+var prettysize =  require('prettysize');
 module.exports = {
     lists: (req, res, next) => {
         req.service.files.list({
-            // pageSize :10,
+            pageSize :10,
             // fields: " files(id, name,corpus)"
         }, (err, response)=> {
             if (err) {
@@ -36,9 +37,11 @@ module.exports = {
                 //On Response we create headers and upload the file
                 options.headers = response.headers;
                 options.headers["Authorization"] = "Bearer " + req.cookies.access_token.access_token;
-                options.form = {name: 'samundra.txt'};
-                if (response.statusCode == 200)
+                if (response.statusCode == 200) {
+                    response.headers.name = path.basename(req.query.url);
+                    response.headers.size = prettysize(response.headers['content-length'],true,true);
                     res.json(req.success(response.headers));
+                }
                 else
                     res.json(req.error("There was Problem Connecting to api"));
             })
