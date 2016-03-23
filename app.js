@@ -21,6 +21,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
+
+//Some global use configuration
 app.use((req, res, next)=> {
     var google = require('googleapis');
     req.google = google;
@@ -32,17 +34,28 @@ app.use((req, res, next)=> {
     };
     return next();
 });
+//Secure api protection
 app.use('/api', (req, res, next)=> {
-    if (!req.cookies.token ) {
+    if (!req.cookies.token) {
         return res.send("No Token Key Found, <a href='/authenticate'>Authenticate</a>")
     }
-    var Drive =  require('./handlers/Drive');
-    var drive =  new Drive();
+    var Drive = require('./handlers/Drive');
+    var drive = new Drive();
     drive.init();
     var oauth = drive.connect();
     oauth.credentials = JSON.parse(JSON.stringify(req.cookies.access_token));
-    req.oauth =  oauth;
-    req.service  =  req.google.drive({ version: 'v3', auth: req.oauth });
+    req.oauth = oauth;
+    req.service = req.google.drive({version: 'v3', auth: req.oauth});
+    return next();
+});
+
+var server = app.listen(3000);
+var io = require('socket.io')(server);
+app.use(function (req, res, next) {
+    io.on('connection', function (client) {
+        req.client = client;
+        console.log(req.client.id)
+    });
     return next();
 });
 app.use('/', routes);
@@ -79,5 +92,6 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
+//Socket Implemention
 
 module.exports = app;

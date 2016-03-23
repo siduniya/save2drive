@@ -33,3 +33,15 @@ block content
                   input(@keyup.enter="submitUrlForUpload" placeholder="Enter File URL..." v-model="file_url" type="url" class="form-control")
                 li.list-group-item
                   button.btn.btn-primary(v-on:click="submitUrlForUpload") Upload
+                br
+                li.list-group-item.active Some Key Points
+                li.list-group-item If url is too long and there is error please short the link
+                    a(href="http://bit.ly" target="_blank")  Click Here to Shorten
+                li.list-group-item You can Upload multiple files and just close the tab
+                li.list-group-item Small file will be uploaded within time if file is huge then you can close the tab ,file will be uploaded to drive
+                li.list-group-item If you see no response then Authenticate once again
+                li.list-group-item
+                  .alert.alert-danger  We have no access to your files , Neither we touch any your private files, Only file is uploaded nothing else is done
+                li.list-group-item
+                  .alert.alert-success IF you want to look the codes you can always have a look on
+                      a(href="https://github.com/samundrak/save-to-drive" target="_blank")  Github

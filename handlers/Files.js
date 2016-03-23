@@ -22,7 +22,8 @@ module.exports = {
         if (!req.query.url) {
             return res.json(req.error("No any url found"));
         }
-
+        console.log(req.client.id)
+        req.client.emit('upload','its upload message');
         var options = {
             url: ' https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
             headers: {},
@@ -41,7 +42,7 @@ module.exports = {
                     response.headers.name = path.basename(req.query.url);
                     response.headers.size = prettysize(response.headers['content-length'],true,true);
                     res.json(req.success(response.headers));
-                }
+                      }
                 else
                     res.json(req.error("There was Problem Connecting to api"));
             })

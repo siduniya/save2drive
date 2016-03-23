@@ -1,10 +1,10 @@
-// var io =  io.connect('http://localhost:3000');
+var io =  io.connect(window.location.href);
 Vue.config.debug = true;
 Vue.config.silent = false;
 
-// io.on('upload',function(data){
-//     console.log(data);
-// });
+io.on('upload',function(data){
+    console.log(data);
+});
 var fileList = new Vue({
     el: "#files",
     data: {
