@@ -14,7 +14,9 @@
     "googleapis": "^3.1.0",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
+    "pretty-time": "^0.2.0",
     "prettysize": "0.0.3",
+    "progress-stream": "^1.2.0",
     "request": "^2.69.0",
     "serve-favicon": "~2.3.0",
     "socketio": "^1.0.0"

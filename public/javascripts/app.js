@@ -1,10 +1,15 @@
+
 var io =  io.connect(window.location.href);
 Vue.config.debug = true;
 Vue.config.silent = false;
 
-io.on('upload',function(data){
-    console.log(data);
+io.on('takeYourToken',function(data){
+    if(typeof data === 'object' && data.hasOwnProperty('token')){
+            document.cookie = "id=" + data.token;
+    }
 });
+
+
 var fileList = new Vue({
     el: "#files",
     data: {
@@ -23,7 +28,15 @@ var fileList = new Vue({
                     if (response.data.success) {
                         response.data.data.url =  this.file_url;
                         response.data.data.type = response.data.data['content-type'];
-                        this.fileDetails.push(response.data.data);
+                        var data = response.data.data;
+                        data.progress = {
+                            at : 0,
+                            uploaded :0,
+                            remains :0,
+                            eta :0,
+                            speed:0
+                        }
+                        this.fileDetails.push(data);
                         this.$set('message', '');
                         this.$set('file_url', '');
                     } else {
@@ -50,4 +63,15 @@ var fileList = new Vue({
                 }
             });
     },
+});
+
+io.on('upload',function(data){
+   console.log(data)
+    var item = _.findWhere(fileList.fileDetails,{hash:data.fileId});
+    item.progress.at = data.progress.percentage;
+    item.progress.uploaded = data.progress.transferred;
+    item.progress.remains = data.progress.remaining;
+    item.progress.eta = data.progress.eta || 'Completed';
+    item.progress.speed = data.progress.speed;
+    // $("#"+data.fileId).css("width",data.progress.percentage+"%");
 });

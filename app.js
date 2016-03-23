@@ -34,6 +34,7 @@ app.use((req, res, next)=> {
     };
     return next();
 });
+clientLists =  new Array();
 //Secure api protection
 app.use('/api', (req, res, next)=> {
     if (!req.cookies.token) {
@@ -48,16 +49,10 @@ app.use('/api', (req, res, next)=> {
     req.service = req.google.drive({version: 'v3', auth: req.oauth});
     return next();
 });
-
+x = 101;
 var server = app.listen(3000);
 var io = require('socket.io')(server);
-app.use(function (req, res, next) {
-    io.on('connection', function (client) {
-        req.client = client;
-        console.log(req.client.id)
-    });
-    return next();
-});
+require('./handlers/Socket')(app,io);
 app.use('/', routes);
 app.use('/api', api);
 app.use('/users', users);
