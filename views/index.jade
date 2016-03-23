@@ -8,36 +8,37 @@ block content
 			ul.list-group
 				li.list-group-item.active File will be uploaded to root
 				li.list-group-item(v-if="!loading && fileDetails.length")
-					table.table.table-striped
-						tr
-							th Name
-							th Type
-							th Size
-							th Status
-						tr(v-for="file in fileDetails")
-							td {{file.name}}
-							td {{file.type}}
-							td {{file.size}}
-							td
-								ul.list-group
-									li.list-group-item
-										div.label.label-default() Progress
-										div.progress(style="margin-top:2px;")
-												.progress-bar.progress-bar-striped.active(role="progressbar" aria-valuenow="{{file.progress.at}}" aria-valuemin="0" aria-valuemax="100" style="width:{{file.progress.at}}%" id="{{file.hash}}") {{file.progress.at}}%
-									li.list-group-item
-										.label-default.label Uploaded
-										div {{file.progress.uploaded}}
-									li.list-group-item
-										.label-default.label Remaining
-										div {{file.progress.remains}}
-									li.list-group-item
-										.label-default.label Time Left
-										div {{file.progress.eta}}
-									li.list-group-item
-										.label-default.label Speed
-										div {{file.progress.speed}}
-								br
-							a(:href="file.url") Link Here
+						div(v-for="file in fileDetails")
+							.row
+								.col-md-12
+									table.table-striped.table
+										tr
+											th Name
+											th Type
+											th Size
+										tr
+											td {{file.name}}
+											td {{file.type}}
+											td {{file.size}}
+								.col-md-12
+									div.label.label-default() Progress
+									div.progress(style="margin-top:2px;")
+											.progress-bar.progress-bar-striped.active(role="progressbar" aria-valuenow="{{file.progress.at}}" aria-valuemin="0" aria-valuemax="100" style="width:{{file.progress.at}}%" id="{{file.hash}}") {{file.progress.at}}%
+								.col-md-12
+									.row
+										.col-sm-3
+											.label-default.label Uploaded
+											div {{file.progress.uploaded}}
+										.col-sm-3
+											.label-default.label Remaining
+											div {{file.progress.remains}}
+										.col-sm-3
+											.label-default.label Time Left
+											div {{file.progress.eta}}
+										.col-sm-3
+											.label-default.label Speed
+											div {{file.progress.speed}}
+							hr
 				//li.list-group-item(v-if="!files.length && !loading") No Any File Found
 				//li.list-group-item(v-if="loading")
 					img(src="images/loading.gif")
@@ -54,6 +55,8 @@ block content
 				li.list-group-item You can Upload multiple files and just close the tab
 				li.list-group-item Small file will be uploaded within time if file is huge then you can close the tab ,file will be uploaded to drive
 				li.list-group-item If you see no response then Authenticate once again
+				li.list-group-item
+					.alert.alert-warning You can close the tab once the uploading is started and forget about it, the file will be uploaded but rembember you will not see upload status next time you visit this page again.
 				li.list-group-item
 					.alert.alert-danger  We have no access to your files , Neither we touch any your private files, Only file is uploaded nothing else is done
 				li.list-group-item

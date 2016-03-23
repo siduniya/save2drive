@@ -18,10 +18,14 @@ var fileList = new Vue({
         file_url: undefined,
         message: '',
         loading: true,
-        fileDetails: []
+        fileDetails: [],
     },
     methods: {
         submitUrlForUpload(){
+            if(this.loading) {
+                return;
+            }
+            this.loading =true;
             if (this.file_url.trim().length < 3) return;
             this.$http.get('/api/upload?url=' + this.file_url)
                 .then(response => {
@@ -42,6 +46,7 @@ var fileList = new Vue({
                     } else {
                         this.$set('message', response.data.data);
                     }
+                    this.loading  = false;
                 });
         }
     },
@@ -66,7 +71,6 @@ var fileList = new Vue({
 });
 
 io.on('upload',function(data){
-   console.log(data)
     var item = _.findWhere(fileList.fileDetails,{hash:data.fileId});
     item.progress.at = data.progress.percentage;
     item.progress.uploaded = data.progress.transferred;
