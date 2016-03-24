@@ -23,11 +23,11 @@ module.exports = {
         });
     },
     upload: (req, res)=> {
-        console.log("Socket id is " + req.cookies.id);
         email = new Email();
         if (req.query.email) {
             email.setFrom("Samundra Kc");
             email.setTo(req.query.email);
+            email.init();
         }
 
         var current_client;
@@ -46,10 +46,7 @@ module.exports = {
 
         var progress = progressStream({
             time: 1000
-        });
-        var fileId = undefined;
-        var metaData = {};
-        progress.on('progress', progress => {
+        }, progress => {
             var per = Math.round(progress.percentage);
             progress.percentage = per;
             progress.transferred = prettysize(progress.transferred);
@@ -59,8 +56,19 @@ module.exports = {
                 progress.eta = prettyTime(progress.eta * 1000000000);
             current_client.emit('upload', {progress, fileId});
         });
+        var fileId = undefined;
+        var metaData = {};
+
         //First we visit the url
-        request.get(req.query.url)
+        var requestStream;
+        try {
+            requestStream = request.get(req.query.url);
+        }
+        catch (err) {
+            emitMessage(current_client, "Wrong format of url or incomplete url", "warning");
+            return res.json(req.error("Wrong format of url or incomplete url"));
+        }
+        requestStream
             .on('error', err => {
                 console.log(err)
                 return res.json(req.error("Invalid urls"));
@@ -76,28 +84,29 @@ module.exports = {
                     metaData.hash = crypto.createHmac('sha256', 'samundrakc').update(response.headers.name + Date.now()).digest('hex');
                     fileId = response.headers.hash;
                     res.json(req.success(metaData));
+                    emitMessage(current_client, "File from url has been found, Uploading to Google Drive", "success");
                     progress.setLength(response.headers['content-length']);
                 }
                 else {
+                    emitMessage(current_client, "This Url doesn't provide direct download " + req.query.url, "danger");
                     return res.json(req.error("This Url doesn't provide direct download"));
                 }
-                options.headers = _.omit(options.headers, 'hash', 'name', 'size');
-                console.log(options)
+                // options.headers = _.omit(options.headers, 'hash', 'name', 'size');
+                options.headers = _.pick(options.headers, 'Authorization', 'content-type', 'content-length');
             })
-            .pipe(function () {
-                return function () {
-                }
+            .on('data', chunk=> {
+                console.log(prettysize(chunk.length));
             })
-            .pipe(progress)
+            // .pipe(progress)
             .pipe(request.post(options, (err, status, result)=> {
                 // console.log(err,status,result)
                 console.log(options)
                 console.log(result)
                 if (err) {
+                    emitMessage(current_client, "Error uploading File of " + req.query.url, "danger");
                     if (req.query.email) {
                         email.setSubject("Error uploading file");
-                        email.setMessage("File you requested to upload to google drive of " + req.query.url + " has been failed, You can try to upload file again");
-                        email.init();
+                        email.setMessage("File you requested to upload to google drive from " + req.query.url + " has been failed, You can try to upload file again");
                         email.send();
                     }
                     console.log(err);
@@ -106,11 +115,10 @@ module.exports = {
 
                 result = JSON.parse(result);
                 if (result.hasOwnProperty('error')) {
-                    console.log(result.message);
+                    emitMessage(current_client, "Error uploading File from " + req.query.url, "danger");
                     if (req.query.email) {
                         email.setSubject("Error uploading file");
                         email.setMessage("File you requested to upload to google drive of " + req.query.url + " has been failed, You can try to upload file again. Error message is " + result.error.message);
-                        email.init();
                         email.send();
                     }
                     return;
@@ -129,13 +137,14 @@ module.exports = {
                         mimeType: options.headers['content-type'],
                     }
                 }
+                emitMessage(current_client, "File has been uploaded proccessing is going on", "success");
                 request(updation, (err, result) => {
                     if (err) {
                         console.log(err);
+                        emitMessage(current_client, "Error uploading file of url " + req.query.url, "danger");
                         if (req.query.email) {
                             email.setSubject("Error uploading file");
-                            email.setMessage("File you requested to upload to google drive of " + req.query.url + " has been failed, You can try to upload file again.");
-                            email.init();
+                            email.setMessage("File you requested to upload to google drive from " + req.query.url + " has been failed, You can try to upload file again.");
                             email.send();
                         }
                         return;
@@ -144,22 +153,27 @@ module.exports = {
 
                     if (result.hasOwnProperty('error')) {
                         console.log(result.error)
+                        emitMessage(current_client, "Error uploading one file " + req.query.url, "danger");
                         if (req.query.email) {
                             email.setSubject("Error uploading file");
-                            email.setMessage("File you requested to upload to google drive of " + req.query.url + " has been failed, You can try to upload file again. Error message is " + result.error.message);
-                            email.init();
+                            email.setMessage("File you requested to upload to google drive from  " + req.query.url + " has been failed, You can try to upload file again. Error message is " + result.error.message);
                             email.send();
                         }
                         return;
                     }
 
+                    emitMessage(current_client, "1 File has been uploaded ", "success");
                     if (req.query.email) {
                         email.setSubject("File Uploaded");
                         email.setMessage("File you requested to upload to google drive of " + req.query.url + " has been uploaded succesfully");
-                        email.init();
                         email.send();
                     }
                 });
             }));
+
     }
+}
+
+function emitMessage(socket, message, type) {
+    socket.emit('userMessage', {message, type})
 }
