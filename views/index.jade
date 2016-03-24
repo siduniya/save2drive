@@ -31,7 +31,7 @@ block content
 									div.progress(style="margin-top:2px;")
 											.progress-bar.progress-bar-striped(role="progressbar" aria-valuenow="{{file.progress.at}}" aria-valuemin="0" aria-valuemax="100" style="width:{{file.progress.at}}%" id="{{file.hash}}") {{file.progress.at}}%
 								.col-md-12
-									a(:href="file.url") File Url
+									a(:href="file.url").btn.btn-primary File Url
 								.col-md-12
 									.row
 										.col-sm-3

@@ -9,7 +9,9 @@ io.on('takeYourToken',function(data){
     }
 });
 
-
+io.on('userMessage',function(data){
+    $.simplyToast(data.message,data.type);
+});
 var fileList = new Vue({
     el: "#files",
     data: {
