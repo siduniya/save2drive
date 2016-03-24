@@ -19,6 +19,7 @@ var fileList = new Vue({
         message: '',
         loading: true,
         fileDetails: [],
+        email :undefined
     },
     methods: {
         submitUrlForUpload(){
@@ -27,7 +28,13 @@ var fileList = new Vue({
             }
             this.loading =true;
             if (this.file_url.trim().length < 3) return;
-            this.$http.get('/api/upload?url=' + this.file_url)
+
+            var url = '/api/upload?url=' + encodeURIComponent(this.file_url);
+            if(this.isEmail && this.email && this.email.trim().length > 3){
+                url = url +"&email="+this.email;
+            }
+
+            this.$http.get(url)
                 .then(response => {
                     if (response.data.success) {
                         response.data.data.url =  this.file_url;
