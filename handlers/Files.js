@@ -39,9 +39,11 @@ module.exports = {
             return res.json(req.error("No any url found"));
         }
 
-        var options = {
+        var googleRequestMetaData = {
             url: ' https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
-            headers: {},
+            headers: {
+                Authorization : "Bearer " + req.cookies.access_token.access_token
+            },
         }
 
         var progress = progressStream({
@@ -75,8 +77,8 @@ module.exports = {
             })
             .on('response', response => {
                 //On Response we create headers and upload the file
-                options.headers = response.headers;
-                options.headers["Authorization"] = "Bearer " + req.cookies.access_token.access_token;
+                googleRequestMetaData.headers = _.extendOwn(googleRequestMetaData.headers,response.headers);
+                googleRequestMetaData.headers["Authorization"] = "Bearer " + req.cookies.access_token.access_token;
                 if (response.statusCode == 200) {
                     var metaData = response.headers;
                     metaData.name = path.basename(req.query.url);
@@ -91,17 +93,11 @@ module.exports = {
                     emitMessage(current_client, "This Url doesn't provide direct download " + req.query.url, "danger");
                     return res.json(req.error("This Url doesn't provide direct download"));
                 }
-                // options.headers = _.omit(options.headers, 'hash', 'name', 'size');
-                options.headers = _.pick(options.headers, 'Authorization', 'content-type', 'content-length');
+                googleRequestMetaData.headers = _.pick(googleRequestMetaData.headers, 'Authorization', 'content-type', 'content-length');
             })
-            .on('data', chunk=> {
-                console.log(prettysize(chunk.length));
-            })
-            // .pipe(progress)
-            .pipe(request.post(options, (err, status, result)=> {
+            .pipe(progress)
+            .pipe(request.post(googleRequestMetaData, (err, status, result)=> {
                 // console.log(err,status,result)
-                console.log(options)
-                console.log(result)
                 if (err) {
                     emitMessage(current_client, "Error uploading File of " + req.query.url, "danger");
                     if (req.query.email) {
@@ -128,13 +124,13 @@ module.exports = {
                     url: 'https://www.googleapis.com/drive/v3/files/' + result.id,
                     method: 'PATCH',
                     headers: {
-                        "Authorization": options.headers['Authorization'],
+                        "Authorization": googleRequestMetaData.headers['Authorization'],
                         'Content-Type': 'application/json'
                     },
                     json: {
                         fileId: result.id,
                         name: path.basename(req.query.url),
-                        mimeType: options.headers['content-type'],
+                        mimeType: googleRequestMetaData.headers['content-type'],
                     }
                 }
                 emitMessage(current_client, "File has been uploaded proccessing is going on", "success");
