@@ -38,7 +38,7 @@ clientLists =  new Array();
 //Secure api protection
 app.use('/api', (req, res, next)=> {
     if (!req.cookies.token) {
-        return res.send("No Token Key Found, <a href='/authenticate'>Authenticate</a>")
+        return res.json(req.error("No Token key found please authenticate"))
     }
     var Drive = require('./handlers/Drive');
     var drive = new Drive();

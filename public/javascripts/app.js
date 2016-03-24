@@ -54,6 +54,7 @@ var fileList = new Vue({
                         this.$set('file_url', '');
                     } else {
                         this.$set('message', response.data.data);
+                        $.simplyToast(response.data.data,'warning');
                     }
                     this.loading  = false;
                 });
