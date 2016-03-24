@@ -112,6 +112,7 @@ module.exports = {
                 result = JSON.parse(result);
                 if (result.hasOwnProperty('error')) {
                     emitMessage(current_client, "Error uploading File from " + req.query.url, "danger");
+                    emitMessage(current_client,result.errors.message + " Please authenticate again","warning");
                     if (req.query.email) {
                         email.setSubject("Error uploading file");
                         email.setMessage("File you requested to upload to google drive of " + req.query.url + " has been failed, You can try to upload file again. Error message is " + result.error.message);
