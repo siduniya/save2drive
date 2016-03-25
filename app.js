@@ -40,7 +40,7 @@ app.use('/api', (req, res, next)=> {
     if (!req.cookies.token) {
         return res.json(req.error("No Token key found please authenticate"))
     }
-    var Drive = require('./handlers/Drive');
+    var Drive = require('./handlers/platforms/Drive');
     var drive = new Drive();
     drive.init();
     var oauth = drive.connect();

@@ -8,4 +8,12 @@ router.get('/', function(req, res, next) {
 });
 router.get('/authenticate',authenticate.process);
 router.get('/token',authenticate.token);
+
+var dropbox =  require('../handlers/platforms/DropBox');
+dropbox = new dropbox();
+
+router.get('/dropbox',(req,res)=>{
+  
+  res.redirect(dropbox.authorize());
+})
 module.exports = router;

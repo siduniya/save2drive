@@ -1,6 +1,6 @@
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
-var credit = require('../client_secret.json');
+var credit = require('../../client_secret.json');
 function Drive() {
 }
 Drive.prototype.init = ()=> {
